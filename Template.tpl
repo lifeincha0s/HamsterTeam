@@ -7,10 +7,10 @@
 	
 	<body>
 	<ul>
-		<li><a href="Cat1.php">Category 1</a></li>
-		<li><a href="Cat2.php">Category 2</a></li>
-		<li><a href="Cat3.php">Category 3</a></li>
-		<li><a href="Cat4.php">Category 4</a></li>
+		<li><a href="Cat1.php"; <?php if($current == 'Cat1') {echo 'class="active"';} ?>>Category 1</a></li>
+		<li><a href="Cat2.php"; <?php if($current == 'Cat2') {echo 'class="active"';} ?>>Category 2</a></li>
+		<li><a href="Cat3.php"; <?php if($current == 'Cat3') {echo 'class="active"';} ?>>Category 3</a></li>
+		<li><a href="Cat4.php"; <?php if($current == 'Cat4') {echo 'class="active"';} ?>>Category 4</a></li>
 	</ul>
 	<h2>
 	<?php echo $Cat ?>
