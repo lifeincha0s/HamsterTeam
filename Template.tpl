@@ -248,7 +248,5 @@
 	</div>
 		<br>
 	</tr>
-	<button type="reset">Clear</button>
-	<button type="submit">Submit</button>
 	</body>
 	

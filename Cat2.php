@@ -11,3 +11,6 @@
 <?php 
 	require('Template.tpl');
 ?>
+	<button type="reset">Clear</button>
+	<button type="submit">Previous</button>
+	<button type="submit">Next</button>
