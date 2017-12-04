@@ -1,12 +1,12 @@
 <!DOCTYPE HTML PUBLIC>
-<?php echo"<title>".$Title."</title>"?>
+<?php echo"<title>Web-Based Survey</title>"?>
 <head>
   <link rel="stylesheet" type="text/css" href="./CSS_Soft/design.css">
   <link rel="stylesheet" type="text/css" href="./CSS_Soft/tab.css">
-  <script type="text/javascript" src="./clear.js"></script>
- 
+  <script type="text/javascript" src="./Javascript/clear.js"></script>
+
 </head>
-	<?php
+<?php
 
 
 // Connect to the database
@@ -16,48 +16,41 @@
    }
 
    $dbh = ConnectDB();
+        require('./Question.tpl');
+  $distroKey =$_GET['distributionKey'];
 
-	  
-        $Title ='Webbased Survey';
-         require('./Question.tpl');
-	
 ?>
 
+<body>
+
 <?php
-
-$survey_ID = '1';
-
 include 'LoadDBLocal.php';
 
-echo"<div class='tab'>";
+  echo"<div class='tab'>";
   for($i=0; $i<$num_cats; $i++){
 
    $Category= $category[$i];
-   if($survey_ID==$Category[survey_ID])
-{
-echo"<button class='tablinks' onclick='openTab(event,".$Category[cat_ID].")'>".$Category[category_Name]."</button>";
-
-			  }
-			  } 
+			 
+echo"<button class='tablinks' name='cats' onclick='openTab(event,".$Category[category_ID].")'>".$Category[category_name]."</button>";
+} 
 echo"</div>";
 
 	  for($i=0; $i<$num_cats; $i++){
                $Category = $category[$i];
-	       echo "<div id='".$Category[cat_ID]."'class='tabcontent'>";
+		    echo "<div id='".$Category[category_ID]."'class='tabcontent'>";
+				  
 	            for($j=0; $j<$num_questions; $j++){
        		             $Question = $question[$j];
-                             if(($Category[cat_ID]==$Question[cat_ID])&&($survey_ID==$Question[survey_ID]))
+                             if($Category[category_ID]==$Question[category_ID])
 		             GenerateQuest($Question);
 						 }
-						 echo"</div>";
+		     echo"</div>";
 }
 
-			       
 ?>
 
 <script>
-				    
-function openTab(evt, tabName) {
+  function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
@@ -70,18 +63,42 @@ function openTab(evt, tabName) {
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
 }
-
-		    // Get the element with id="defaultOpen" and click on it
 tab = document.getElementsByClassName("tablinks");
-		    tab[0].click();
+tab[0].click();
+		    
 
+function nextTab(){
+    var tab, i, current;
+    tab = document.getElementsByName("cats");
+    for (i = 0; i < tab.length;i++) {
+        if(tab[i].className=="tablinks active"){
+             current=i;
+        }
+    }
 
+    if((current!=null)&&(current!= tab.length-1))
+       tab[current+1].click();
+}
+
+function prevTab(){
+    var tab, i, current;
+    tab = document.getElementsByName("cats");
+    for (i = 0; i < tab.length;i++) {
+        if(tab[i].className=="tablinks active"){
+             current=i;
+        }
+    }
+    if((current!=null)&&(current!=0))
+       tab[current-1].click();
+}
+		    
 </script>
-
 <html>
-  <body>
-    <br>
-        <button type="reset" onclick="clearBut()">Clear</button>
-        <button type="submit">Next</button>
+  <br>
+        <button type="reset" onclick="clearBut()" id="reset">Clear</button>
+	<button type="prev" onclick="prevTab()" id="prev">Previous</button>
+        <button type="next" onclick="nextTab()" id="next">Next</button>
+	
+<form method="post"><button type="submit" id="submit">Submit</button></form>
 </body>
 </html>
