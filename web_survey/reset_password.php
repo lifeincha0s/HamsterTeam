@@ -1,6 +1,9 @@
 <?php
 /*
  * 	reset_password.php
+ *	PHPMailer is required for script to work successfully.
+ *	https://github.com/PHPMailer/PHPMailer
+ *	Composer can be used to install PHP libraries locally
 */
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
