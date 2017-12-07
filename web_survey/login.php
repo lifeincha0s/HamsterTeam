@@ -13,31 +13,29 @@ if (isset($_POST['login'])) {
 	$user_name = stripslashes($_POST['user_name']);
 	$user_pass = stripslashes($_POST['user_pass']);
 	
-	if ($user_name != '' && $user_pass != '') {
-		// Create a new mysql connection object
-		$pdo = new dbConnection();
+	// Create a new mysql connection object
+	$pdo = new dbConnection();
 	
-		// Build SQL Query
-		$sql = "SELECT * FROM admin_credentials WHERE admin_name= ? LIMIT 1";
-		$query = $pdo->prepare($sql);
-		$query->bindParam(1, $user_name);
-		$query->execute();
-		$getPassword = $query->fetch(PDO::FETCH_ASSOC);
-		$query->closeCursor();
+	// Build SQL Query
+	$sql = "SELECT * FROM admin_credentials WHERE admin_name= ? LIMIT 1";
+	$query = $pdo->prepare($sql);
+	$query->bindParam(1, $user_name);
+	$query->execute();
+	$getPassword = $query->fetch(PDO::FETCH_ASSOC);
+	$query->closeCursor();
 	
-		if (!$getPassword) {
-			echo "<script>alert('Error fetching user.');</script>";
+	if (!$getPassword) {
+		echo "<script>alert('Error fetching user.');</script>";
+	} else {
+		$hash_pass = $getPassword['admin_password'];
+		if (password_verify($user_pass, $hash_pass) == false) {
+			$error_login = "Username or Password is invalid.";
 		} else {
-			$hash_pass = $getPassword['admin_password'];
-			if (password_verify($user_pass, $hash_pass) == false) {
-				$error_login = "Username or Password is invalid.";
-			} else {
-				// Initializing Session
-				$_SESSION['valid_user']=$user_name;
-				$_SESSION['account_ID']=$getPassword['account_ID'];
-				// Redirecting To Other Page
-				header("Location: ./profile.php");
-			}
+			// Initializing Session
+			$_SESSION['valid_user']=$user_name;
+			$_SESSION['account_ID']=$getPassword['account_ID'];
+			// Redirecting To Other Page
+			header("Location: ./profile.php");
 		}
 	}
 }
