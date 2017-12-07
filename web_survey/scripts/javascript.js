@@ -26,6 +26,10 @@ function login_validation(form) {
 }
 
 function send_email_validation(form) {
+	if (is_empty(form.recipient, "'Contact Name' cannot be empty!")) {
+		form.recipient.focus();
+		return false;
+	};
 	if (is_empty(form.email_address, "'Email Address' cannot be empty!")) {
 		form.email_address.focus();
 		return false;
@@ -36,6 +40,32 @@ function send_email_validation(form) {
 	};
 	if (is_empty(form.email_body, "'Text Body' cannot be empty!")) {
 		form.email_body.focus();
+		return false;
+	};
+}
+
+function change_password_validation(form) {
+	if (is_empty(form.user_name, "'Enter UserID' cannot be empty!")) {
+		form.user_name.focus();
+		return false;
+	};
+	if (is_empty(form.user_pass, "'Current Password' cannot be empty!")) {
+		form.user_pass.focus();
+		return false;
+	};
+	if (is_empty(form.password1, "'New Password' cannot be empty!")) {
+		form.password1.focus();
+		return false;
+	};
+	if (is_empty(form.password2, "'Verify Password' cannot be empty!")) {
+		form.password2.focus();
+		return false;
+	};
+	if (form.password1.value != form.password2.value) {
+		alert("Passwords do not match!");
+		form.password1.value="";
+		form.password2.value="";
+		form.password1.focus();
 		return false;
 	};
 }
@@ -80,6 +110,7 @@ function reset_password_validation(form) {
 		return false;
 	};
 }
+
 function form_validation(thisform) {
 	if (thisform.name == "form_login") {
 		return login_validation(thisform);
@@ -92,6 +123,9 @@ function form_validation(thisform) {
 	};
 	if (thisform.name == "form_create_account") {
 		return create_account_validation(thisform);
+	};
+	if (thisform.name == "form_change_password") {
+		return change_password_validation(thisform);
 	};
 	return false;
 }
