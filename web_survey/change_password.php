@@ -1,6 +1,6 @@
 <?php
 /*
- *	change_password.php
+ *		change_password.php
 */
 require_once('./dbConnection.php');
 $error_password = '';
