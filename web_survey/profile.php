@@ -2,7 +2,7 @@
 /*
  * 	profile.php
 */
-include('./session.php');	// always include: this carries session cookie
+include('./session.php');
 $page_title = "Profile: " . $login_session;
 ?>
 <!DOCTYPE HTML PUBLIC>
@@ -17,6 +17,7 @@ $page_title = "Profile: " . $login_session;
 <body>
 <div id="profile">
 	<b id="welcome">Welcome : <a href="./profile.php"><i><?php echo $login_session; ?></i></a></b>
+	
 	<b id="password"><a href="./change_password.php">Change Password</a></b>
 	<b id="logout"><a href="./logout.php">Log Out</a></b>
 </div>
