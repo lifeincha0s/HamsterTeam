@@ -1,32 +1,32 @@
 <?php
 /*
- * 	survey.php
- * 	sample landing page for direct link url's to take a specific survey
+ * 		survey.php
+ * 		sample landing page for direct link url's to take a specific survey
  */
 require_once('./dbConnection.php');
 if (isset($_SESSION['valid_user'])) {
 	header("Location: ./profile.php");
 }
-$page_title = 'Survey';
+$page_title	= 'Survey';
 
 // Get URL Encoding
 $distribution_KEY = $_GET['distributionKEY'];
 
 // Create a new database connection
-$pdo = new dbConnection();
+$pdo		= new dbConnection();
 
 // Build query
-$sql = "SELECT * FROM distribution_list WHERE distribution_KEY= ? LIMIT 1";
-$query = $pdo->prepare($sql);
+$sql		= "SELECT * FROM distribution_list WHERE distribution_KEY= ? LIMIT 1";
+$query		= $pdo->prepare($sql);
 $query->bindParam(1, $distribution_KEY);
 $query->execute();
-$survey = $query->fetch(PDO::FETCH_ASSOC);
+$survey		= $query->fetch(PDO::FETCH_ASSOC);
 // $survey=>[
 //            'distribution_KEY'  = <VARCHAR(13)>,
 //            'survey_ID'         = <VARCHAR(13)>,
 //            'user_ID'           = <VARCHAR(13)> ]
-$greeting = "Hello, " . $survey['user_ID'];
-$survey = "Survey: " . $survey['survey_ID'];
+$greeting	= "Hello, " . $survey['user_ID'];
+$survey		= "Survey: " . $survey['survey_ID'];
 ?>
 <!DOCTYPE html>
 <html>
