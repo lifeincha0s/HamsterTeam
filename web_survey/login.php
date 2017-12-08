@@ -1,7 +1,7 @@
 <?php
 /*
- *	login.php
- */
+ * 		login.php
+*/
 session_start();					// Start Session Cookie
 require_once('./dbConnection.php');	// add PDO connection class
 
@@ -59,7 +59,9 @@ if (isset($_POST['login'])) {
 				<input id="user_pass" name="user_pass" placeholder="Password..." type="password">
 				
 				<input name="login" type="submit" value=" Login ">
+				
 				<label>Forgot <a href="./reset_password.php">password</a>? Register for a <a href="./registration.php">new account</a>?</label>
+				
 				<div id="error_message"><?php echo $error_login; ?></div>
 			</form>
 		</div>
