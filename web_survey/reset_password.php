@@ -12,11 +12,12 @@ require_once('./dbConnection.php');
 $webmaster		= "hamster.survey@gmail.com";
 $cc_address		= "carpentej8@students.rowan.edu";
 $error_reset	= "";
+$page_title		= "Reset Password";
 
 if (isset($_POST['reset_password'])) {
 	// Get information from Form
-	$user_name = stripslashes($_POST['user_name']);
-	$contact_email = stripslashes($_POST['contact_email']);
+	$user_name		= stripslashes($_POST['user_name']);
+	$contact_email	= stripslashes($_POST['contact_email']);
 	
 	// Create a new db connection
 	$pdo = new dbConnection();
@@ -38,8 +39,8 @@ if (isset($_POST['reset_password'])) {
 	if ($found_creds && $found_email) {
 		// Verify user_ID from the tables match:
 		// user_information & user_credentials (i.e. same account)
-		$user_cred_ID = $found_creds['account_ID'];	// 5a1f87193eea5
-		$user_info_ID = $found_email['account_ID'];	// 5a1f87193eea5
+		$user_cred_ID = $found_creds['account_ID'];
+		$user_info_ID = $found_email['account_ID'];
 		if ($user_cred_ID != $user_info_ID) {
 			$error_reset = "Account Not Found!";
 		} else {
@@ -59,7 +60,7 @@ if (isset($_POST['reset_password'])) {
 function update_password($admin_credentials, $hash_password) {
 	// UPDATE PASSWORD IN DATABASE
 	$pdo = new dbConnection();
-	$sql = "UPDATE admin_credentials SET admin_password = ? WHERE admin_name = ?;";
+	$sql = "UPDATE admin_credentials SET admin_password = ? WHERE admin_name = ? ";
 	$query = $pdo->prepare($sql);
 	$query->bindParam(1, $hash_password);
 	$query->bindParam(2, $admin_credentials['admin_name']);
@@ -69,22 +70,22 @@ function update_password($admin_credentials, $hash_password) {
 }
 
 function reset_password($admin_credentials, $admin_information) {
-	$eol		= "<br>\r\n";
-	$tab		= "$emsp;";
+	$eol			= "<br>\r\n";
+	$tab			= "$emsp;";
 	$new_password	= new_random_password();	// Generate a new random password
 	$email_address	= $admin_information['contact_email'];
 	$email_subject	= "Password Reset";
-	$email_body	= "The account registered to this email has chosen to reset the password." . $eol
-				. "If you are receiving this email in error, please contact us immediately hamster.survey@gmail.com." . $eol
-				. $eol
-				. "The password has been set to: $new_password" . $eol
-				. "Please do the following to verify update:" . $eol
-				. $tab . "1) Log in to your account using the following URL" . $eol
-				. $tab . "   http://elvis.rowan.edu/~carpentej8" . $eol
-				. $tab . "2) Change the password." . $eol
-				. $eol
-				. "Thank you for using Web-Based Survey for all your survey needs!" . $eol;
-	$hash_password = password_hash($new_password, PASSWORD_DEFAULT);
+	$email_body		= "The account registered to this email has chosen to reset the password." . $eol
+					. "If you are receiving this email in error, please contact us immediately hamster.survey@gmail.com." . $eol
+					. $eol
+					. "The password has been set to: <strong>$new_password</strong>" . $eol
+					. "Please do the following to verify update:" . $eol
+					. $tab . "1) Log in to your account using the following URL" . $eol
+					. $tab . "   http://elvis.rowan.edu/~carpentej8" . $eol
+					. $tab . "2) Change the password." . $eol
+					. $eol
+					. "Thank you for using Web-Based Survey for all your survey needs!" . $eol;
+	$hash_password	= password_hash($new_password, PASSWORD_DEFAULT);
 	
 	// try updating password in database
 	if (!update_password($admin_credentials, $hash_password)) {
@@ -94,35 +95,35 @@ function reset_password($admin_credentials, $admin_information) {
 	// EMAIL THE NEW PASSWORD TO USER
 	$mail = new PHPMailer(true);    // Passing `true` enables exceptions
 	try {
-		$smtp_config_file = './smtp.ini';
-		$smtp_config = parse_ini_file($smtp_config_file);
+		$smtp_config_file	= './smtp.ini';
+		$smtp_config		= parse_ini_file($smtp_config_file);
 
 		//Server settings
-		$mail->SMTPDebug = 4;                         // Enable verbose debug output
-		$mail->isSMTP();                                // Set mailer to use SMTP
-		$mail->Host = $smtp_config['smtp_host'];        // Specify SMTP servers
-		$mail->SMTPAuth = true;                         // Enable authentication
-		$mail->Username = $smtp_config['smtp_user'];    // SMTP username
-		$mail->Password = $smtp_config['smtp_pass'];    // SMTP password
-		$mail->SMTPSecure = 'tls';                      // Encryption type
-		$mail->Port = 587;                              // TCP port
+		//$mail->SMTPDebug	= 4;							// Enable verbose debug output
+		$mail->isSMTP();									// Set mailer to use SMTP
+		$mail->Host			= $smtp_config['smtp_host'];	// Specify SMTP servers
+		$mail->SMTPAuth		= true;							// Enable authentication
+		$mail->Username		= $smtp_config['smtp_user'];	// SMTP username
+		$mail->Password		= $smtp_config['smtp_pass'];	// SMTP password
+		$mail->SMTPSecure	= 'tls';						// Encryption type
+		$mail->Port			= 587;							// TCP port
 		
 		//Recipients
 		$mail->setFrom($GLOBALS['webmaster'], 'Surveys');
-		$mail->addAddress($email_address);      // Add recipient
+		$mail->addAddress($email_address);					// Add recipient
 		$mail->addCC($GLOBALS['cc_address']);
 
 		//Content
 		$mail->isHTML(true);                    // Set email format to HTML
-		$mail->Subject  = $email_subject;
-		$mail->Body	= $email_body;
-		$mail->AltBody  = "To view the message, please use an HTML compatible email viewer!";
+		$mail->Subject		= $email_subject;
+		$mail->Body			= $email_body;
+		$mail->AltBody		= "To view the message, please use an HTML compatible email viewer!";
 		$mail->send();
 		return true;
 	} catch (Exception $e) {
-		$error_reset	= "Message could not be sent." . $eol
-						. "Mailer Error: " . $eol
-						. $mail->ErrorInfo;
+		$error_reset		= "Message could not be sent." . $eol
+							. "Mailer Error: " . $eol
+							. $mail->ErrorInfo;
 		return false;
 	}
 }
