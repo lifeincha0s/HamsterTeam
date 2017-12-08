@@ -1,6 +1,6 @@
 <?php
 /*
- *	index.php
+ *		index.php
  */
 if (isset($_SESSION['valid_user'])) {
 	header("Location: ./profile.php");
