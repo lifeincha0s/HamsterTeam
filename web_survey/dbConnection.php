@@ -1,15 +1,16 @@
 <?php
 /*
- * 	dbConnection.php
+ *		dbConnection.php
  * 		Defines the database connection class
 */
 
 class dbConnection extends PDO
 {
 	// set location for the config file
-	private $config_file = 'configs/config.ini';
-	private $config = array();
-	private $db_host = '', $db_name = '';
+	private $config_file	= 'configs/config.ini';
+	private $config			= array();
+	private $db_host		= '';
+	private $db_name		= '';
 
 	public function __construct()
 	{
