@@ -25,12 +25,20 @@ function login_validation(form) {
 	};
 }
 
+function bad_email(textbox) {
+	var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	if (!filter.test(textbox.value)) {
+		alert('Please provide a valid email address.');
+		return true;
+	};
+}
+	    
 function send_email_validation(form) {
 	if (is_empty(form.recipient, "'Contact Name' cannot be empty!")) {
 		form.recipient.focus();
 		return false;
 	};
-	if (is_empty(form.email_address, "'Email Address' cannot be empty!")) {
+	if (is_empty(form.email_address, "'Email Address' cannot be empty!") || bad_email(form.email_address)) {
 		form.email_address.focus();
 		return false;
 	};
@@ -75,7 +83,8 @@ function create_account_validation(form) {
 		form.contact_name.focus();
 		return false;
 	};
-	if (is_empty(form.contact_email, "'User Email' cannot be empty!")) {
+	if (is_empty(form.contact_email, "'User Email' cannot be empty!") || bad_email(form.contact_email)) {
+		form.contact_email.value="";
 		form.contact_email.focus();
 		return false;
 	};
