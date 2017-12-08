@@ -1,10 +1,10 @@
 <?php
 /*
- *  registration.php
+ *  	registration.php
 */
 require_once('./dbConnection.php');	// add PDO connection class
-$page_title = 'Registration';
-$error_register = '';				// Store Error Messages
+$page_title		= 'Registration';
+$error_register	= '';				// Store Error Messages
 
 if (isset($_POST['create_account'])) {
 	// Get user information from form
@@ -54,8 +54,8 @@ if (isset($_POST['create_account'])) {
 		$result_cred = $query->execute();
 		
 		if ($result_info && $result_cred){
-			$_SESSION['valid_user']=$user_name;
-			$_SESSION['account_ID']=$account_ID;
+			$_SESSION['valid_user'] = $user_name;
+			$_SESSION['account_ID'] = $account_ID;
 			header("Location: ./profile.php");
 		}
 	}
@@ -82,9 +82,11 @@ if (isset($_POST['create_account'])) {
 				<input placeholder="Enter a UserID..."		id="user_name" name="user_name" type="text">
 				<input placeholder="Select A Password..."	id="password1" name="password1" type="password">
 				<input placeholder="Re-Enter Password..."		id="password2" name="password2" type="password">
+				
 				<input name="create_account" type="submit" value=" Create Account ">
 				
 				<label>Return to <a href="./index.php">login form</a>...</label>
+				
 				<div id="error_message"><?php echo $error_register; ?></div>
 			</form>
 		</div>
