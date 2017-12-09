@@ -12,6 +12,31 @@
     margin-right: -50%;
     transform: translate(-50%, -50%)
 }
+#next {              
+    display: block;
+    margin: 0 auto;
+    margin-top: 5px;
+}
+#reset { 
+display: block;
+    margin: 0 auto;
+    margin-top: 5px;
+}
+#survey_name{ 
+position: static;
+    width: 300px;
+    align-content: center;
+//margin: auto;
+}
+#category_name{ 
+position: static;
+    width: 300px;
+    align-content: center;
+// margin: auto;
+}
+
+
+
 #begin{
 	display:block;
 	margin: 0 auto;
