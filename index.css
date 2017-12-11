@@ -70,7 +70,7 @@ position: static;
 #Selection{
     position: relative;
     height: 30px;   
-    left: 50%;
+    alignment: center;
 }
 select{
 	margin:0 auto;
