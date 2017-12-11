@@ -9,9 +9,11 @@ use PHPMailer\PHPMailer\Exception;
 include('vendor/autoload.php');
 include_once('./dbConnection.php');
 
-$webmaster		= "hamster.survey@gmail.com";
-$cc_address		= "carpentej8@students.rowan.edu";
-$error_mailer	= '';
+define(SMTP_FILE, './configs/smtp.ini');
+
+var $webmaster		= "hamster.survey@gmail.com";
+//var $cc_address		= <send a copy to email address>;
+var $error_mailer	= '';
 
 /*	survey_ID
  *	GENERATED @TIME OF SURVEY CREATION:
@@ -61,7 +63,7 @@ if (isset($_POST['send_email'])) {
 	$query->bindParam(1, $distributionKEY);
 	$query->bindParam(2, $survey_ID);
 	$query->bindParam(3, $user_ID);
-	$query->bindParam(4, $completed);
+	$query->bindParam(4, $completed);			// This needs to changed to '1' once the user takes the survey
 	$results = $query->execute();
 	$query->closeCursor();
 	if (!$results) {
@@ -72,11 +74,11 @@ if (isset($_POST['send_email'])) {
 	// Get form data:
 	$email_subject		= $_POST['email_subject'];
 	$email_body			= $_POST['email_body'];
-	$survey_access_url	= "http://elvis.rowan.edu/~carpentej8/web-based_survey/survey.php?"
+	$survey_access_url	= "http://elvis.rowan.edu/~shawt6/Survey.php?"
 						. "distributionKEY="  . $distributionKEY;
 	$mail				= new PHPMailer(true);		// TRUE enables exceptions
 	try {
-		$smtp_config = parse_ini_file('./configs/smtp.ini');
+		$smtp_config = parse_ini_file(SMTP_FILE);
 		
 		//Server settings
 		//$mail->SMTPDebug = 4;						// Enable verbose debug output
@@ -91,7 +93,7 @@ if (isset($_POST['send_email'])) {
 		//Recipients
 		$mail->setFrom($webmaster, 'Surveys');
 		$mail->addAddress($email_address);				// Add recipient
-		$mail->addCC($cc_address);
+		if (isset($cc_address)) { $mail->addCC($cc_address); }
 		
 		//Attachments
 		//$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
@@ -121,13 +123,11 @@ if (isset($_POST['send_email'])) {
         <div id="form">
                 <h2>Mail Form</h2>
                 <form name="form_send_email" action="" method="post" onSubmit="return form_validation(this)">
-                        <input name="recipient" id="recipient" placeholder="Contact Name..." type="text" autofocus>
-						<input name="email_address" id="email_address" placeholder="Email Address..." type="text">
-                        <input name="email_subject" id="email_subject" placeholder="Subject..." cols="45" type="text">
+                        <input name="recipient" id="recipient" placeholder="Contact Name..." type="text" autofocus />
+						<input name="email_address" id="email_address" placeholder="Email Address..." type="text" />
+                        <input name="email_subject" id="email_subject" placeholder="Subject..." cols="45" type="text" />
                         <textarea name="email_body" id="email_body" placeholder="Text Body..." type="text"></textarea>
-						
-						<input name="send_email" type="submit" value=" Send Email ">
-						
+						<input name="send_email" type="submit" value=" Send Email " />
 						<div id="error_message"><?php echo $error_mailer; ?></div>
                 </form>
         </div>
