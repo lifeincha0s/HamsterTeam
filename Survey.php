@@ -88,6 +88,8 @@ function prevTab(){
 }
 
 function saveSQL(){
+var x = confirm("Are you sure you've completed the survey");
+if(x==true){		  
    cat1JS= <?php echo $cat1JS; ?>;
    cat2JS= <?php echo $cat2JS; ?>;
    cat3JS= <?php echo $cat3JS; ?>;
@@ -134,6 +136,9 @@ function saveSQL(){
         var scj5 =  Math.round(cat5Score/cat5JS.length);
         document.getElementById('sc5').value=scj5;
     }
+}
+else {event.preventDefault();
+		   }
 }
 
 function checkedAnswer(name){
