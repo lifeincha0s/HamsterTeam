@@ -40,8 +40,8 @@
             dynamic_cat_div.appendChild(num_questions_select);
             var dynamic_question_div = document.createElement("div");
             dynamic_question_div.id = "question_div_" + (i+1);
+            num_questions_select.setAttribute("onchange", "addQuestions('" + num_questions_select.id + "', '" + dynamic_question_div.id + "')");
             dynamic_cat_div.appendChild(dynamic_question_div);
-            num_questions_select.onchange = addQuestions(num_questions_select.id, dynamic_question_div.id);
             dynamic_cat_div.appendChild(document.createElement("br"));
         }
     }
@@ -54,7 +54,12 @@
             question_div.removeChild(question_div.lastChild);
         }
         for(var i = 0; i < num_questions; i++) {
-            question_div.appendChild(document.createTextNode("Question " + (i+1)));
+            question_div.appendChild(document.createTextNode("Question " + (i+1) + ":"));
+            var question_text_input = document.createElement("input");
+            question_text_input.type = "text";
+            question_text_input.name = "questions[]"
+            question_div.appendChild(question_text_input);
+            question_div.appendChild(document.createElement("br"));
         }
     }
 </script>
