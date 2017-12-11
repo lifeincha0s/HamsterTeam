@@ -9,7 +9,7 @@
 <?php
 // Connect to the database
 
-   if (!include('MyersDBConneciton.php')) {
+   if (!include('MyersDBConnection.php')) {
       die('error finding connect file');
    }
 
