@@ -28,7 +28,31 @@ position: static;
     align-content: center;
 //margin: auto;
 }
-#category_name{ 
+#category_div_1{ 
+ position: static;
+     width: 300px;
+     align-content: center;
+ // margin: auto;
+ }
+#category_div_2{ 
+position: static;
+    width: 300px;
+    align-content: center;
+// margin: auto;
+}
+#category_div_3{ 
+position: static;
+    width: 300px;
+    align-content: center;
+// margin: auto;
+}
+#category_div_4{ 
+position: static;
+    width: 300px;
+    align-content: center;
+// margin: auto;
+}
+#category_div_5{
 position: static;
     width: 300px;
     align-content: center;
