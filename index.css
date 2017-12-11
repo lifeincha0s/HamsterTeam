@@ -42,12 +42,11 @@ position: static;
 	margin: 0 auto;
 	margin-top:5px;	
 }
+
 #Selection{
-	position: Relative;
-    top: 50%;
+    position: relative;
+    height: 30px;   
     left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%)
 }
 select{
 	margin:0 auto;
